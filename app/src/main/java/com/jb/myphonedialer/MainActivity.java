@@ -25,18 +25,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setPointer() {
         //we connecting between our layout (view) to our intent(code)
         result = findViewById(R.id.phoneNumber);
-        //phoneNumber.setText("972543126547");
-        /*
-        findViewById(R.id.num1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(phoneNumber.getText().toString());
-                sb.append("1");
-                phoneNumber.setText(sb.toString());
-            }
-        });
-        */
     }
 
     @Override
@@ -94,10 +82,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             case R.id.mul:
                 opr = '*';
-                holdNumber = Double.parseDouble(result.getText().toString());
+                holdNumber *= Double.parseDouble(result.getText().toString());
                 result.setText("");
                 return;
-
             case R.id.minus:
                 opr = '-';
                 holdNumber = Double.parseDouble(result.getText().toString());
@@ -105,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             case R.id.plus:
                 opr = '+';
-                holdNumber = Double.parseDouble(result.getText().toString());
+                holdNumber += Double.parseDouble(result.getText().toString());
                 result.setText("");
                 return;
             case R.id.equal:
@@ -116,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void calc() {
+        if (result.getText().toString().length() < 1) return;
         Double myNumber = Double.parseDouble(result.getText().toString());
         Double newResult = 0.0;
         switch (opr) {
@@ -140,12 +128,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         DecimalFormat df = new DecimalFormat("0.###");
         result.setText(df.format(newResult));
         opr = ' ';
-
     }
-
-    /*
-    public void click(View view){
-        Log.e("number", "click: 2" );
-    }
-     */
 }
