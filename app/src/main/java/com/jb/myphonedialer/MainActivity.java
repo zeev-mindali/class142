@@ -8,8 +8,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    TextView phoneNumber;
+    TextView result;
+    private char opr = ' ';
+    private double holdNumber = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setPointer() {
         //we connecting between our layout (view) to our intent(code)
-        phoneNumber = findViewById(R.id.phoneNumber);
+        result = findViewById(R.id.phoneNumber);
         //phoneNumber.setText("972543126547");
         /*
         findViewById(R.id.num1).setOnClickListener(new View.OnClickListener() {
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         StringBuilder sb = new StringBuilder();
-        sb.append(phoneNumber.getText().toString());
+        sb.append(result.getText().toString());
 
         switch (view.getId()) {
 
@@ -72,19 +76,71 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.num0:
                 sb.append("0");
                 break;
-            case R.id.star:
-                sb.append("*");
+            case R.id.clr:
+                result.setText("");
+                opr = ' ';
+                holdNumber = 0;
+                return;
+            case R.id.dot:
+                if (result.getText().toString().contains(".")) {
+                    return;
+                }
+                sb.append(".");
                 break;
-            case R.id.hashtag:
-                sb.append("#");
-                break;
-            case R.id.dial:
-                //show me the money
-                Toast.makeText(this, "calling "+sb.toString()+" ...", Toast.LENGTH_LONG).show();
-                phoneNumber.setText("");
+            case R.id.div:
+                opr = '/';
+                holdNumber = Double.parseDouble(result.getText().toString());
+                result.setText("");
+                return;
+            case R.id.mul:
+                opr = '*';
+                holdNumber = Double.parseDouble(result.getText().toString());
+                result.setText("");
+                return;
+
+            case R.id.minus:
+                opr = '-';
+                holdNumber = Double.parseDouble(result.getText().toString());
+                result.setText("");
+                return;
+            case R.id.plus:
+                opr = '+';
+                holdNumber = Double.parseDouble(result.getText().toString());
+                result.setText("");
+                return;
+            case R.id.equal:
+                calc();
                 return;
         }
-        phoneNumber.setText(sb.toString());
+        result.setText(sb.toString());
+    }
+
+    private void calc() {
+        Double myNumber = Double.parseDouble(result.getText().toString());
+        Double newResult = 0.0;
+        switch (opr) {
+            case '/':
+                if (myNumber == 0) {
+                    result.setText("can't divide by 0");
+                    return;
+                }
+                newResult = holdNumber / myNumber;
+                break;
+            case '*':
+                newResult = holdNumber * myNumber;
+                break;
+            case '-':
+                newResult = holdNumber - myNumber;
+                break;
+            case '+':
+                newResult = holdNumber + myNumber;
+                break;
+        }
+
+        DecimalFormat df = new DecimalFormat("0.###");
+        result.setText(df.format(newResult));
+        opr = ' ';
+
     }
 
     /*
