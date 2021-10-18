@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             case R.id.mul:
                 opr = '*';
-                holdNumber *= Double.parseDouble(result.getText().toString());
+                holdNumber = Double.parseDouble(result.getText().toString());
                 result.setText("");
                 return;
             case R.id.minus:
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             case R.id.plus:
                 opr = '+';
-                holdNumber += Double.parseDouble(result.getText().toString());
+                holdNumber = Double.parseDouble(result.getText().toString());
                 result.setText("");
                 return;
             case R.id.equal:
